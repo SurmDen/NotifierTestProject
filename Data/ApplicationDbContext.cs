@@ -19,7 +19,25 @@ namespace NotifierTestProject.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("");
+            optionsBuilder.UseSqlite(_configuration.GetConnectionString("SQLiteConnection") ?? "notice_app.db");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>(userBuilder =>
+            {
+                userBuilder.HasIndex(x => x.Id);
+                userBuilder.ToTable("users");
+                userBuilder
+                .HasMany(x => x.Notices)
+                .WithMany(y => y.Users);
+            });
+
+            modelBuilder.Entity<Notice>(noticeBuilder =>
+            {
+                noticeBuilder.HasIndex(x => x.Id);
+                noticeBuilder.ToTable("notices");
+            });
         }
     }
 }
