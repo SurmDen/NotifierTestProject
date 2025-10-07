@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using NotifierTestProject.Data;
 using NotifierTestProject.Interfaces;
 using NotifierTestProject.Services;
@@ -22,7 +23,10 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpClient();
 
-builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlite("application.db");
+});
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<INoticeRepository, NoticeRepository>();
 
