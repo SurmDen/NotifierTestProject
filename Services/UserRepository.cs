@@ -65,5 +65,41 @@ namespace NotifierTestProject.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task NotifyUsersAsync(Guid noticeId)
+        {
+            Notice? notice = await _context.Notices.FirstOrDefaultAsync();
+
+            if (notice == null)
+            {
+                _logger.LogWarning($"Notice with id {noticeId} was null");
+
+                throw new ArgumentException($"Notice with id {noticeId} was null");
+            }
+
+            try
+            {
+                IEnumerable<User> users = _context.Users.Include(u => u.Notices);
+
+                foreach (var user in users)
+                {
+                    // tracking, have the user notice with noticeId
+                    if (user.Notices.FirstOrDefault(n => n.Id == noticeId) == null)
+                    {
+                        user.Notices.Add(notice);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error occured while notify users to db");
+
+                throw;
+            }
+            finally 
+            {
+                await _context.SaveChangesAsync(); 
+            }
+        }
     }
 }

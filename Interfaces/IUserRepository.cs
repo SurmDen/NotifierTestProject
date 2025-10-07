@@ -8,5 +8,7 @@ namespace NotifierTestProject.Interfaces
         public Task LoadUsersAsync(List<CsvUser> csvUsers);
 
         public Task<List<User>> GetUsersAsync();
+
+        public Task NotifyUsersAsync(Guid noticeId);
     }
 }
