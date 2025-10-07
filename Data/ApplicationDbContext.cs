@@ -5,7 +5,7 @@ namespace NotifierTestProject.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext()
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base( )
         {
             Database.EnsureCreated();
         }
