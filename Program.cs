@@ -25,7 +25,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlite("application.db");
+    options.UseSqlite("Data Source=application.db");
 });
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<INoticeRepository, NoticeRepository>();
@@ -41,6 +41,24 @@ else
     app.UseExceptionHandler("/error");
     app.UseHsts();
 }
+
+app.Use(async (context, next) =>
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        if (dbContext != null)
+        {
+            if (dbContext.Database.GetPendingMigrations().Any())
+            {
+                await dbContext.Database.MigrateAsync();
+            }
+        }
+    }
+
+    await next.Invoke();
+});
 
 app.UseRouting();
 app.UseStaticFiles();
