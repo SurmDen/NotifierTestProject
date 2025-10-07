@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/mainpage/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-bell"></i> Notification System</h1>
+            <p>Manage users and send notifications efficiently</p>
+        </div>
+
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-chart-bar"></i> Statistics</h2>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalNotices">0</div>
+                        <div class="stat-label">Total Notices</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="notifiedUsers">0</div>
+                        <div class="stat-label">Notified Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="pendingUsers">0</div>
+                        <div class="stat-label">Pending Users</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-plus-circle"></i> Create Notice</h2>
+                </div>
+                <form id="createNoticeForm">
+                    <div class="form-group">
+                        <label class="form-label">Notifier Name</label>
+                        <input type="text" class="form-input" id="notifierName" placeholder="Enter notifier name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-input" id="message" rows="3" placeholder="Enter notification message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="createNoticeBtn">
+                        <i class="fas fa-paper-plane"></i> Create Notice
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-upload"></i> Upload Users</h2>
+            </div>
+            <div class="form-group">
+                <div class="file-upload">
+                    <input type="file" id="csvFile" class="file-upload-input" accept=".csv">
+                    <label for="csvFile" class="file-upload-label" id="fileUploadLabel">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.7;"></i>
+                        <div style="font-size: 1.2rem; font-weight: 600;">Choose CSV File or Drag & Drop</div>
+                        <div style="opacity: 0.7; margin-top: 5px;">Supports .csv files only</div>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-success" id="uploadCsvBtn" disabled>
+                <i class="fas fa-upload"></i> Upload CSV
+            </button>
+            <button class="btn btn-primary" id="loadUsersBtn">
+                <i class="fas fa-sync-alt"></i> Load Users from DB
+            </button>
+        </div>
+
+        <div class="tables-container">
+            <div class="table-wrapper">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-users"></i> Users</h2>
+                </div>
+                <div id="usersTableContainer">
+                    <table class="table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>User Number</th>
+                                <th>User Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="usersEmptyState">
+                        <i class="fas fa-users"></i>
+                        <div>No users loaded</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-bell"></i> Notices</h2>
+                    <button class="btn btn-primary" id="loadNoticesBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <div id="noticesTableContainer">
+                    <table class="table" id="noticesTable">
+                        <thead>
+                            <tr>
+                                <th>Notifier</th>
+                                <th>Message</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="noticesTableBody">
+                            <!-- Notices will be loaded here -->
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="noticesEmptyState">
+                        <i class="fas fa-bell"></i>
+                        <div>No notices created</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+
+    <script src="/mainpage/script.js"></script>
+</body>
+
+</html>
