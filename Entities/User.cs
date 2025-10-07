@@ -7,5 +7,7 @@
         public long UserNumber { get; set; }
 
         public string UserName { get; set; } = string.Empty;
+
+        public List<Notice> Notices { get; set; }
     }
 }
